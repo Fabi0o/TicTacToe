@@ -1,0 +1,12 @@
+.gameboard {
+  display: grid;
+  max-width: 450px;
+  min-height: 450px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.gridItem {
+  border: solid black 1px;
+  width: 150px;
+  height: 150px;
+  font-size: 125px;
+}
