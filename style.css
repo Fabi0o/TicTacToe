@@ -1,12 +1,38 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(59, 78, 66);
+}
 .gameboard {
   display: grid;
   max-width: 450px;
   min-height: 450px;
   grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 50px;
 }
 .gridItem {
   border: solid black 1px;
   width: 150px;
   height: 150px;
   font-size: 125px;
+  background-color: rgb(84, 185, 118);
+}
+.appearing {
+  height: 25px;
+  margin: 10px;
+}
+.start {
+  border-radius: 18px;
+  width: 100px;
+  height: 35px;
+  background-color: rgb(84, 185, 118);
+  border: none;
+  color: rgb(0, 0, 0);
+}
+h3 {
+  margin: 0;
+}
+.playAgain {
+  color: black;
 }
