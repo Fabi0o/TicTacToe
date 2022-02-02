@@ -1,8 +1,8 @@
 //stores state of the gameboard and has function that diplays the board
 const gameboard = (() => {
   let board = ["", "", "", "", "", "", "", "", ""];
+  const buttons = document.querySelectorAll(".gridItem");
   const displayBoard = () => {
-    const buttons = document.querySelectorAll(".gridItem");
     buttons.forEach((button) => {
       button.textContent = board[button.dataset.indexNumber];
     });
@@ -12,27 +12,49 @@ const gameboard = (() => {
     board,
   };
 })();
-//creates players
-const player = (number, marker) => {
-  const buttons = document.querySelectorAll(".gridItem");
-
-  const displayMove = function (event) {
-    gameboard.board[this.dataset.indexNumber] = marker;
+//creates players and lets them display their moves on the gameboard
+const player = (name, marker) => {
+  const displayMove = (target) => {
+    gameboard.board[target.dataset.indexNumber] = marker;
     gameboard.displayBoard();
-    buttons.forEach((button) => {
-      button.removeEventListener("click", displayMove);
-    });
   };
-  const playerMove = () => {
-    buttons.forEach((button) => {
-      if (button.textContent == "") {
-        button.addEventListener("click", displayMove);
-      }
-    });
-  };
-  return { number, marker, playerMove };
+  return { name, marker, displayMove };
 };
 
 const playerOne = player("playerOne", "X");
 const playerTwo = player("playerTwo", "O");
-playerOne.playerMove();
+
+const gameLogic = (() => {
+  const buttons = document.querySelectorAll(".gridItem");
+  let markersOnBoard = 0;
+  const gamePlay = function (event) {
+    if (
+      (markersOnBoard == 0 || markersOnBoard % 2 == 0) &&
+      this.textContent == ""
+    ) {
+      playerOne.displayMove(this);
+      markersOnBoard++;
+    } else if (
+      markersOnBoard % 2 != 0 &&
+      markersOnBoard != 9 &&
+      this.textContent == ""
+    ) {
+      playerTwo.displayMove(this);
+      markersOnBoard++;
+    }
+  };
+  const addGamePlay = function (event) {
+    this.removeEventListener("click", addGamePlay);
+    buttons.forEach((button) => {
+      button.addEventListener("click", gamePlay);
+    });
+  };
+  const startGame = () => {
+    const startButton = document.querySelector(".start");
+    startButton.addEventListener("click", addGamePlay);
+  };
+  return {
+    startGame,
+  };
+})();
+gameLogic.startGame();
